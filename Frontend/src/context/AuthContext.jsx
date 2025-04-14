@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useCallback } from 'react';
-import jwt_decode from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 
 export const AuthContext = createContext();
 
@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const login = useCallback((token) => {
-    const decoded = jwt_decode(token);
+    const decoded = jwtDecode(token);
     localStorage.setItem('token', token);
     setToken(token);
     setUser(decoded);
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       try {
-        const decoded = jwt_decode(storedToken);
+        const decoded = jwtDecode(storedToken);
         setUser(decoded);
         setToken(storedToken);
       } catch (error) {
