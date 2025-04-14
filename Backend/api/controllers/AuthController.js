@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import ApiError from '../utils/apiError.js';
-import { jwtSecret, jwtExpiresIn } from '../config/jwt.js';
+import { jwtSecret, jwtExpiresIn } from '../../config/jwt.js';
 
 export const register = async (req, res, next) => {
   try {

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import ApiError from '../utils/apiError.js';
-import { jwtSecret } from '../config/jwt.js';
+import { jwtSecret } from '../../config/jwt.js';
 
 export const protect = async (req, res, next) => {
   try {
