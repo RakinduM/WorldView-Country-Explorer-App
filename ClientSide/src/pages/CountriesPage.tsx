@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { getAllCountries, searchCountries } from '../services/countryService';
+import { getAllCountries, searchCountries, getCountriesByRegion } from '../services/countryService';
 import { SearchBar } from '../components/SearchBar';
 import { CountryCard } from '../components/CountryCard';
-import { GlobeIcon } from 'lucide-react';
-import debounce from 'lodash.debounce'; // Install lodash.debounce if not already installed
+import debounce from 'lodash.debounce';
 
 type Country = {
   name: string;
@@ -14,11 +13,15 @@ type Country = {
   region: string;
 };
 
+const ITEMS_PER_PAGE = 16;
+
 export const CountriesPage = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [filteredCountries, setFilteredCountries] = useState<Country[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedRegion, setSelectedRegion] = useState<string>('All');
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -39,14 +42,16 @@ export const CountriesPage = () => {
   const handleSearch = useCallback(
     debounce(async (query: string) => {
       if (!query.trim()) {
-        setFilteredCountries(countries);
+        filterByRegion(selectedRegion, countries);
         setError(null);
+        setCurrentPage(1); // Reset to the first page
         return;
       }
       try {
         setLoading(true);
         const results = await searchCountries(query);
-        setFilteredCountries(results);
+        filterByRegion(selectedRegion, results);
+        setCurrentPage(1); // Reset to the first page
         if (results.length === 0) {
           setError(`No countries found matching "${query}"`);
         } else {
@@ -58,9 +63,42 @@ export const CountriesPage = () => {
       } finally {
         setLoading(false);
       }
-    }, 300), // Debounce delay of 300ms
-    [countries]
+    }, 300),
+    [countries, selectedRegion]
   );
+
+  const filterByRegion = async (region: string, countriesToFilter: Country[]) => {
+    if (region === 'All') {
+      setFilteredCountries(countriesToFilter);
+    } else {
+      try {
+        setLoading(true);
+        const filtered = await getCountriesByRegion(region);
+        setFilteredCountries(filtered);
+      } catch (err) {
+        setError(`Failed to fetch countries for region: ${region}`);
+        setFilteredCountries([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleRegionChange = async (region: string) => {
+    setSelectedRegion(region);
+    await filterByRegion(region, countries);
+    setCurrentPage(1); // Reset to the first page
+  };
+
+  const totalPages = Math.ceil(filteredCountries.length / ITEMS_PER_PAGE);
+  const paginatedCountries = filteredCountries.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen w-full">
@@ -70,8 +108,20 @@ export const CountriesPage = () => {
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Search and discover detailed information about countries around the world
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-col md:flex-row gap-4 justify-center">
             <SearchBar onSearch={handleSearch} />
+            <select
+              value={selectedRegion}
+              onChange={(e) => handleRegionChange(e.target.value)}
+              className="p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="All">All Regions</option>
+              <option value="Africa">Africa</option>
+              <option value="Americas">Americas</option>
+              <option value="Asia">Asia</option>
+              <option value="Europe">Europe</option>
+              <option value="Oceania">Oceania</option>
+            </select>
           </div>
         </div>
         {loading ? (
@@ -91,8 +141,23 @@ export const CountriesPage = () => {
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {filteredCountries.map((country) => (
+              {paginatedCountries.map((country) => (
                 <CountryCard key={country.alpha3Code} country={country} />
+              ))}
+            </div>
+            <div className="mt-8 flex justify-center">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handlePageChange(index + 1)}
+                  className={`px-4 py-2 mx-1 rounded ${
+                    currentPage === index + 1
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-200 text-gray-700'
+                  }`}
+                >
+                  {index + 1}
+                </button>
               ))}
             </div>
           </>

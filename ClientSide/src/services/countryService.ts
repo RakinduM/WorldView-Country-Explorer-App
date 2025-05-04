@@ -37,3 +37,14 @@ export async function searchCountries(name: string) {
     throw error;
   }
 }
+
+export async function getCountriesByRegion(region: string) {
+  try {
+    const response = await fetch(`${API_URL}/region/${region}`);
+    if (!response.ok) throw new Error('Failed to fetch countries by region');
+    return await response.json();
+  } catch (error) {
+    console.error(`Error fetching countries from region ${region}:`, error);
+    throw error;
+  }
+}
