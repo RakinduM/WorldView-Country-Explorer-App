@@ -57,7 +57,7 @@ export const Header = () => {
                     />
 
                 </div>
-                <span>{user?.name}</span>
+                <span>{user?.username}</span>
               </button>
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-md shadow-lg">
