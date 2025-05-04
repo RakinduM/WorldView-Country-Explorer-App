@@ -3,19 +3,25 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/mNaxAqQD)
 
 ## Description
-This is a **frontend-focused web application** designed for users to search and explore information about countries around the globe. Using the **REST Countries API**, the app fetches and displays real-time data about countries, including details like population, capital, region, and more.
+This is a **full-stack web application** designed for searching and exploring information about countries around the world.
+The **frontend** uses the **REST Countries API** to fetch and display country-related data, such as population, capital, and more, along with dynamic features like filtering and detail views.
 
-The project is built using **React** and styled with **TailwindCSS**, focusing on interactive design and smooth user experience.
+The **backend** (built with **Express.js**) complements the frontend by providing additional APIs if needed—for example, user authentication, or storing user preferences.
+This repository brings together powerful tooling for both frontend and backend development.
 
 ---
 
 ## Features
-- **Search Functionality**: Users can search for countries by name.
-- **REST Countries API Integration**: Fetches country data dynamically.
-- **Filter by Region**: Allows filtering countries by region (e.g., Asia, Europe).
-- **Detail View**: Provides additional information about a selected country.
-- **Responsive Design**: Optimized for desktop and mobile devices.
-- **Animations**: Smooth transitions powered by Framer Motion.
+- **Frontend**:
+  - Search for world countries using the REST Countries API.
+  - Filter countries by region and view detailed country information.
+  - Bookmark countries as user preference
+  - Responsive layout and animations with TailwindCSS and Framer Motion.
+
+- **Backend**:
+  - Extendable Express.js server setup to handle APIs if needed.
+  - Optional support for features like user authentication and preferences storage.
+  - MongoDB integration using Mongoose for data persistence.
 
 ---
 
@@ -28,7 +34,7 @@ Before starting, ensure that you have the following installed:
 
 ## Tech Stack
 - **Frontend**: React 19.0.0, TailwindCSS 4.1.5, React Router, Framer Motion
-- **Backend**: Node JS, Express JS, MongoDB
+- **Backend**: Node JS, Express JS, MongoDB, JWT, Bcrypt js
 - **API**: REST Countries API
 - **Tooling**: Vite for development, ESLint for linting, TypeScript for type safety
 - **Testing**: Jest and React Testing Library
@@ -68,6 +74,23 @@ Before starting, ensure that you have the following installed:
 
 ---
 
+## Configure Environment Variables
+
+#### Frontend `.env`
+Create a `.env` file in the `client` directory with the following(Look for env.example):
+```dotenv
+VITE_REST_COUNTRIES_API_URL=https://restcountries.com/v3.1
+```
+
+#### Backend `.env`
+Create a `.env` file in the `server` directory with the following(Look for env.examople):
+```dotenv
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/world-countries-db
+JWT_SECRET=my_secret_key
+```
+
+
 ## Folder Structure
 
 ```plaintext
@@ -75,13 +98,10 @@ project-folder
 ├── src
 │   ├── components     # Reusable React components (e.g., SearchBar, CountryCard)
 │   ├── pages          # Routes/pages for the app (e.g., Home, Country Details)
-│   ├── hooks          # Custom React Hooks
+│   ├── contexts          # Custom React Hooks
 │   ├── services       # API calls (REST Countries API)
-│   ├── styles         # TailwindCSS configuration
-│   ├── utils          # Utility functions and helpers
-│   └── store          # Any global state management (if used)
+│   ├── assets         # TailwindCSS configuration
 ├── public             # Static assets
-├── tests              # Unit and integration tests
 ├── .env.example       # Example environment variables
 ├── package.json       # Project dependencies & scripts
 └── README.md          # Project documentation
