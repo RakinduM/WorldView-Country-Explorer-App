@@ -101,11 +101,11 @@ export const CountriesPage = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen w-full">
+    <div className="bg-gray-900 text-gray-100 min-h-screen w-full">
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Explore Countries</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <h1 className="text-3xl font-bold text-gray-100 mb-4">Explore Countries</h1>
+          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
             Search and discover detailed information about countries around the world
           </p>
           <div className="mt-8 flex flex-col md:flex-row gap-4 justify-center">
@@ -113,7 +113,7 @@ export const CountriesPage = () => {
             <select
               value={selectedRegion}
               onChange={(e) => handleRegionChange(e.target.value)}
-              className="p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-3 border border-gray-700 bg-gray-800 text-gray-100 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="All">All Regions</option>
               <option value="Africa">Africa</option>
@@ -135,7 +135,7 @@ export const CountriesPage = () => {
         ) : (
           <>
             <div className="mb-6 flex justify-between items-center">
-              <p className="text-gray-600">
+              <p className="text-gray-400">
                 {filteredCountries.length}{' '}
                 {filteredCountries.length === 1 ? 'country' : 'countries'} found
               </p>
@@ -153,7 +153,7 @@ export const CountriesPage = () => {
                   className={`px-4 py-2 mx-1 rounded ${
                     currentPage === index + 1
                       ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-700'
+                      : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                   }`}
                 >
                   {index + 1}

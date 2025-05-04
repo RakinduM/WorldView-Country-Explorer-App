@@ -8,7 +8,7 @@ export const Footer = () => {
           <div>
             <div className="flex items-center space-x-2 text-xl font-bold mb-4">
               <GlobeIcon size={24} />
-              <span>WorldExplorer</span>
+              <span>WorldView</span>
             </div>
             <p className="text-gray-400 mb-4">
               Discover the world's countries and cultures through our
@@ -79,11 +79,11 @@ export const Footer = () => {
         </div>
         <div className="border-t border-gray-800 mt-8 pt-6 text-center text-gray-400">
           <p>
-            © {new Date().getFullYear()} WorldExplorer. All rights reserved.
+            © {new Date().getFullYear()} WorldView. All rights reserved.
           </p>
           <p className="mt-2 flex items-center justify-center">
             Made with <HeartIcon size={16} className="mx-1 text-red-500" />{' '}
-            using REST Countries API
+            DevsGen
           </p>
         </div>
       </div>
