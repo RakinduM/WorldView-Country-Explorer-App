@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getCountryByCode } from '../services/countryService';
 import { useBookmarks } from '../contexts/BookmarkContext';

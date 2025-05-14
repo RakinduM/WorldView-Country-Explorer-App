@@ -1,8 +1,7 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from '../Header';
-import { vi } from 'vitest';
+import { vi, Mock } from 'vitest';
 import { useAuth } from '../../contexts/AuthContext';
 
 // Mock the `useAuth` hook
@@ -12,11 +11,10 @@ vi.mock('../../contexts/AuthContext', () => ({
 
 describe('Header Component', () => {
   const mockLogout = vi.fn();
-  const mockNavigate = vi.fn();
 
   beforeEach(() => {
     vi.resetAllMocks();
-    (useAuth as vi.Mock).mockReturnValue({
+    (useAuth as Mock).mockReturnValue({
       user: { name: 'John Doe', profileImage: 'https://example.com/profile.jpg' },
       isAuthenticated: true,
       logout: mockLogout,
@@ -70,7 +68,7 @@ describe('Header Component', () => {
   });
 
   test('renders login and signup links for unauthenticated users', () => {
-    (useAuth as vi.Mock).mockReturnValue({
+    (useAuth as Mock).mockReturnValue({
       user: null,
       isAuthenticated: false,
       logout: mockLogout,

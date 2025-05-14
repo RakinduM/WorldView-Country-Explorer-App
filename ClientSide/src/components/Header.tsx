@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { GlobeIcon, MenuIcon, XIcon, LogOutIcon } from 'lucide-react';
 
 export const Header = () => {
   const profileImage = 'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?t=st=1746379839~exp=1746383439~hmac=fc17cd92b08890b30bed2c8aaa975d35baf364a858933c23f2408fae5bc62320&w=1380';
-  const { user, isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
