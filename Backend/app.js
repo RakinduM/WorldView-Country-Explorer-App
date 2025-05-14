@@ -4,7 +4,10 @@ import authRouter from "./api/routes/AuthRoute.js";
 import userRouter from "./api/routes/UserRoute.js";
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: "https://worldview-frontend.onrender.com",
+    credentials: true
+  }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
